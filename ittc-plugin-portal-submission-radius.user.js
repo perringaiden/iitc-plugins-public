@@ -3,8 +3,8 @@
 // @name           IITC plugin: Portal Submission Radius
 // @category       Misc
 // @version        0.0.4
-// @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/master/iitc-plugin-portal-submission-radius.user.js
-// @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/master/iitc-plugin-portal-submission-radius.user.js
+// @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-portal-submission-radius.user.js
+// @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-portal-submission-radius.user.js
 // @description    Defines the area inside which a portal submission is too close to another portal.
 // @include        *://*.ingress.com/*
 // @match          *://*.ingress.com/*

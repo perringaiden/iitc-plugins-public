@@ -3,8 +3,8 @@
 // @name           IITC plugin: Display P8s List on Screen
 // @category       Misc
 // @version        0.0.7
-// @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/master/iitc-plugin-display-p8s.user.js
-// @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/master/iitc-plugin-display-p8s.user.js
+// @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-display-p8s.user.js
+// @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-display-p8s.user.js
 // @description    Display RES P8s in a list.
 // @include        *://*.ingress.com/*
 // @match          *://*.ingress.com/*

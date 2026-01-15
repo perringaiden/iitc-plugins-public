@@ -3,8 +3,8 @@
 // @name           IITC plugin: Non Captured/Visited/Scout Highlighters
 // @category       Misc
 // @version        0.8
-// @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/master/iitc-plugin-wolf-uncaptured.user.js
-// @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/master/iitc-plugin-wolf-uncaptured.user.js
+// @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-wolf-uncaptured.user.js
+// @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-wolf-uncaptured.user.js
 // @include        *://*.ingress.com/*
 // @match          *://*.ingress.com/*
 // @grant          none

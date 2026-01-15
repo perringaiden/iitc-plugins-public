@@ -3,8 +3,8 @@
 // @name           IITC plugin: Bookmark Extras
 // @category       Misc
 // @version        0.0.9
-// @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/master/iitc-plugin-bookmark-extras.user.js
-// @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/master/iitc-plugin-bookmark-extras.user.js
+// @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-bookmark-extras.user.js
+// @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-bookmark-extras.user.js
 // @description    Extra tools for use with Bookmarks
 // @include        *://*.ingress.com/*
 // @match          *://*.ingress.com/*
