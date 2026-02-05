@@ -5,7 +5,7 @@ Public plugins for IITC
 * [Bookmark Extras](https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-bookmark-extras.user.js) - Extensions to the Bookmarks plugin.
 * [Display P8s](https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-display-p8s.user.js) - A CSV listing of P8s on screen.
 * [Portal Attack Radius](https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-portal-attack-radius.user.js) - How far from a portal can you hit it with an X8.
-* [Highlight Fully Deployed](https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-highlight-fully-deployed.js)
+* [Highlight Fully Deployed](https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-highlight-fully-deployed.js) - Highlights portals that are fully deployed for the opposition team.
 
 Others:
 
