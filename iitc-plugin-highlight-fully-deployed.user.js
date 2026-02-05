@@ -6,7 +6,7 @@
 // @description    Use the portal fill color to denote if the portal is fully deployed.
 // @id             highlight-deployed-portals
 // @namespace      https://github.com/IITC-CE/ingress-intel-total-conversion
-// @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-highlight-fully-deployed.js
+// @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-highlight-fully-deployed.user.js
 // @match          *://*.ingress.com/*
 // @include        *://*.ingress.com/*
 // @icon           https://iitc.app/extras/plugin-icons/highlight-missing-resonators.svg
