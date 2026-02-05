@@ -2,7 +2,7 @@
 // @author         Perringaiden
 // @name           IITC plugin: Highlight fully deployed portals.
 // @category       Highlighter
-// @version        0.0.2
+// @version        0.0.3
 // @description    Use the portal fill color to denote if the portal is fully deployed.
 // @id             highlight-deployed-portals
 // @namespace      https://github.com/IITC-CE/ingress-intel-total-conversion
@@ -18,6 +18,10 @@ function wrapper(plugin_info) {
     if (typeof window.plugin !== 'function') window.plugin = function () { };
 
     var changelog = [
+        {
+            version: '0.0.3',
+            changes: ['Corrected the download URL.']
+        },
         {
             version: '0.0.2',
             changes: ['Added team specific coloring.']
