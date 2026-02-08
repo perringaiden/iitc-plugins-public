@@ -28,6 +28,8 @@ function wrapper(plugin_info) {
     // than this and circles are indistinguishable.
     window.plugin.attackRadius.MIN_MAP_ZOOM = 17;
 
+    window.plugin.attackRadius.opacity = 0.1;
+
     /**
      * Draw the exclusion circle for a specific portal.
      */
@@ -37,7 +39,16 @@ function wrapper(plugin_info) {
         var d = window.portals[guid];
         var coo = d._latlng;
         var latlng = new L.LatLng(coo.lat, coo.lng);
-        var optCircle = { color: 'red', opacity: 0.1, fillColor: 'gray', fillOpacity: 0.0, weight: 1, clickable: false };
+
+        var optCircle = {
+            color: 'red',
+            opacity: window.plugin.attackRadius.opacity,
+            fillColor: 'gray',
+            fillOpacity: 0.0,
+            weight: 1,
+            circlelickable: false
+        };
+
         var range = 180; // X8 Range.
         var circle = new L.Circle(latlng, range, optCircle);
 
@@ -99,6 +110,38 @@ function wrapper(plugin_info) {
         };
     }
 
+    window.plugin.attackRadius.addToolbox = function () {
+        let optionTemplate = `
+<strong>Opacity: </strong>
+<select onchange="window.plugin.attackRadius.attackRadiusOpacitySelect()" id="attackRadiusOpacitySelect">
+<option value=1>100%</option>
+<option value=0.5>50%</option>
+<option value=0.25>25%</option>
+<option value=0.1>10%</option>
+<option value=0.05>5%</option>
+</select>`;
+
+        $('#toolbox').after('<div id="attack-radius-toolbox" style="padding:3px;"></div>');
+        $('#attack-radius-toolbox').append(optionTemplate);
+
+        var opacitySelect = document.getElementById("attackRadiusOpacitySelect");
+        opacitySelect.options.selectedIndex = 3;
+    }
+
+    window.plugin.attackRadius.attackRadiusOpacitySelect = function () {
+        var opacitySelect = document.getElementById("attackRadiusOpacitySelect");
+        var opacity = opacitySelect.options[opacitySelect.selectedIndex].value;
+
+        window.plugin.attackRadius.opacity = opacity;
+
+        $.each(window.portals, function (i, portal) {
+            var guid = portal.options.ent[0];
+
+            window.plugin.attackRadius.removeAttackableArea(guid);
+            window.plugin.attackRadius.drawAttackableArea(guid);
+        });
+    }
+
     /**
       * Setup methods to initialize the plugin.
       */
@@ -123,6 +166,8 @@ function wrapper(plugin_info) {
 
         // Trigger an initial assessment of displaying the circleDisplayLayer.
         window.plugin.attackRadius.showOrHide();
+
+        window.plugin.attackRadius.addToolbox();
     };
 
     setup.info = plugin_info; //add the script info data to the function as a property
