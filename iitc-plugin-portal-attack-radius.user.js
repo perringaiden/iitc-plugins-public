@@ -2,7 +2,7 @@
 // @id             iitc-plugin-portal-attack-radius@Perringaiden
 // @name           IITC plugin: Portal attack Radius
 // @category       Misc
-// @version        0.0.2
+// @version        0.0.3
 // @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-portal-attack-radius.user.js
 // @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-portal-attack-radius.user.js
 // @description    Defines the area inside which a portal can be attacked by X8s.
