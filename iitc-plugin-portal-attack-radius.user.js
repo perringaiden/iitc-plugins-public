@@ -2,7 +2,7 @@
 // @id             iitc-plugin-portal-attack-radius@Perringaiden
 // @name           IITC plugin: Portal attack Radius
 // @category       Misc
-// @version        0.0.3
+// @version        0.0.4
 // @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-portal-attack-radius.user.js
 // @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-portal-attack-radius.user.js
 // @description    Defines the area inside which a portal can be attacked by X8s.
@@ -24,10 +24,15 @@ function wrapper(plugin_info) {
     // removing specific circles from layers.  Keyed by GUID.
     window.plugin.attackRadius.portalCircles = {};
 
+    // This is the circle object for the currently selected 
+    // portal, which is stored separately on a different layer.
+    window.plugin.attackRadius.selectedCircle = null;
+
     // Minimum map zoom to display circles. Lower (wider)
     // than this and circles are indistinguishable.
     window.plugin.attackRadius.MIN_MAP_ZOOM = 17;
 
+    // Default opacity for the circles.  Can be adjusted in the toolbox.
     window.plugin.attackRadius.opacity = 0.1;
 
     /**
@@ -46,7 +51,7 @@ function wrapper(plugin_info) {
             fillColor: 'gray',
             fillOpacity: 0.0,
             weight: 1,
-            circlelickable: false
+            interactive: false
         };
 
         var range = 180; // X8 Range.
@@ -78,6 +83,50 @@ function wrapper(plugin_info) {
     }
 
     /**
+     * Draw the exclusion circle for the selected portal.
+     */
+    window.plugin.attackRadius.drawSelectedAttackableArea = function (guid) {
+        // Gather the location of the portal, and generate a 20m
+        // radius red circle centered on the lat/lng of the portal.
+        var d = window.portals[guid];
+        var coo = d._latlng;
+        var latlng = new L.LatLng(coo.lat, coo.lng);
+
+        var optCircle = {
+            color: 'orange',
+            opacity: window.plugin.attackRadius.opacity,
+            fillColor: 'red',
+            fillOpacity: 0.5 * window.plugin.attackRadius.opacity,
+            weight: 1,
+            interactive: false
+        };
+
+        var range = 180; // X8 Range.
+        var circle = new L.Circle(latlng, range, optCircle);
+
+
+        // Add the circle to the circle display layer.
+        circle.addTo(window.plugin.attackRadius.selectedDisplayLayer);
+
+        // Store a reference to the circle to allow removal.
+        window.plugin.attackRadius.selectedCircle = circle;
+    }
+
+    /**
+     * Removes the exclusion circle for the selected portal.
+     */
+    window.plugin.attackRadius.removeSelectedAttackableArea = function () {
+        if (window.plugin.attackRadius.selectedCircle) {
+            // Remove the circle from the layer.
+            window.plugin.attackRadius.selectedDisplayLayer.removeLayer(window.plugin.attackRadius.selectedCircle);
+
+            // Delete the circle from storage, so we don't build up
+            // a big cache, and we don't have complex checking on adds.
+            delete window.plugin.attackRadius.selectedCircle;
+        }
+    }
+
+    /**
      * Reacts to a portal being added or removed.
      */
     window.plugin.attackRadius.portalAdded = function (data) {
@@ -88,6 +137,18 @@ function wrapper(plugin_info) {
         data.portal.on('remove', function () {
             window.plugin.attackRadius.removeAttackableArea(this.options.guid);
         });
+    }
+
+    /**
+     * Reacts to a portal being selected or deselected.
+     * @param {*} data 
+     */
+    window.plugin.attackRadius.portalSelected = function () {
+        window.plugin.attackRadius.removeSelectedAttackableArea();
+
+        if ((window.selectedPortal != null) && (window.selectedPortal != undefined)) {
+            window.plugin.attackRadius.drawSelectedAttackableArea(window.selectedPortal);
+        }
     }
 
     /**
@@ -110,6 +171,9 @@ function wrapper(plugin_info) {
         };
     }
 
+    /**
+     * Adds the toolbox options for the plugin.
+     */
     window.plugin.attackRadius.addToolbox = function () {
         let optionTemplate = `
 <strong>Opacity: </strong>
@@ -125,7 +189,7 @@ function wrapper(plugin_info) {
         $('#attack-radius-toolbox').append(optionTemplate);
 
         var opacitySelect = document.getElementById("attackRadiusOpacitySelect");
-        opacitySelect.options.selectedIndex = 3;
+        opacitySelect.options.selectedIndex = 2;
     }
 
     window.plugin.attackRadius.attackRadiusOpacitySelect = function () {
@@ -140,6 +204,8 @@ function wrapper(plugin_info) {
             window.plugin.attackRadius.removeAttackableArea(guid);
             window.plugin.attackRadius.drawAttackableArea(guid);
         });
+
+        window.plugin.attackRadius.portalSelected();
     }
 
     /**
@@ -152,6 +218,9 @@ function wrapper(plugin_info) {
         // This layer is added into the above layer, and removed from it when we zoom out too far.
         window.plugin.attackRadius.circleDisplayLayer = new L.LayerGroup();
 
+        // This is the layer for the selected portal's attackable area.
+        window.plugin.attackRadius.selectedDisplayLayer = new L.LayerGroup();
+
         // Initially add the circle display layer into base display layer.  We will trigger an assessment below.
         window.plugin.attackRadius.displayLayer.addLayer(window.plugin.attackRadius.circleDisplayLayer);
 
@@ -160,6 +229,12 @@ function wrapper(plugin_info) {
 
         // Hook the portalAdded event so that we can adjust circles.
         window.addHook('portalAdded', window.plugin.attackRadius.portalAdded);
+
+        // Add the selected portal display layer.
+        window.addLayerGroup('Selected Portal Attack Area', window.plugin.attackRadius.selectedDisplayLayer, true);
+
+        // Hook the portalSelected event so that we can adjust circles.
+        window.addHook('portalSelected', window.plugin.attackRadius.portalSelected);
 
         // Add a hook to trigger the showOrHide method when the map finishes zooming.
         map.on('zoomend', window.plugin.attackRadius.showOrHide);
