@@ -37,7 +37,7 @@ function wrapper(plugin_info) {
     };
 
     window.plugin.bookmarkextras.createBookmarkFolderList = function () {
-        $('#portaldetails').append('<div id="bookmarkextras_folder_div" style="text-align:center"><br>Bkmrk Fldr: <select id="bookmarkextras_folder_list"></select> <button type="button" onclick="window.plugin.bookmarkextras.moveSelectedPortal()">Go</button><br></div>');
+        $('#portaldetails').append('<div id="bookmarkextras_folder_div" style="text-align:center"><br>Bkmrk Fldr: <select id="bookmarkextras_folder_list" onchange="window.plugin.bookmarkextras.moveSelectedPortal()"></select><br></div>');
 
         var listElement = window.document.getElementById("bookmarkextras_folder_list");
         var portalFolder = 0;
