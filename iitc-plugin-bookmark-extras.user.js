@@ -2,7 +2,7 @@
 // @id             iitc-plugin-bookmarkextras@Perringaiden
 // @name           IITC plugin: Bookmark Extras
 // @category       Misc
-// @version        0.0.9
+// @version        0.1.1
 // @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-bookmark-extras.user.js
 // @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-bookmark-extras.user.js
 // @description    Extra tools for use with Bookmarks
