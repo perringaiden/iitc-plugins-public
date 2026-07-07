@@ -2,7 +2,7 @@
 // @id             iitc-plugin-bookmarkextras@Perringaiden
 // @name           IITC plugin: Bookmark Extras
 // @category       Misc
-// @version        0.1.2
+// @version        0.1.3
 // @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-bookmark-extras.user.js
 // @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-bookmark-extras.user.js
 // @description    Extra tools for use with Bookmarks
@@ -37,7 +37,7 @@ function wrapper(plugin_info) {
     };
 
     window.plugin.bookmarkextras.createBookmarkFolderList = function () {
-        $('#portaldetails').append('<div id="bookmarkextras_folder_div" style="text-align:center"><br>Bookmark Folder: <select id="bookmarkextras_folder_list" onchange="window.plugin.bookmarkextras.moveSelectedPortal()"></select><br></div>');
+        $('#portaldetails').append('<div id="bookmarkextras_folder_div" style="text-align:center"><br>Bkmrk Fldr: <select id="bookmarkextras_folder_list" onchange="window.plugin.bookmarkextras.moveSelectedPortal()"></select><br></div>');
 
         var listElement = window.document.getElementById("bookmarkextras_folder_list");
         var portalFolder = 0;
@@ -51,6 +51,7 @@ function wrapper(plugin_info) {
             }
         }
 
+
         var list = window.plugin.bookmarks.bkmrksObj.portals;
         var foundFolder = false;
 
@@ -60,6 +61,11 @@ function wrapper(plugin_info) {
             var active = '';
             var folderName = folders.label;
             var opt;
+            var maxStringLength = 25;
+
+            if (folderName.length > maxStringLength) {
+                folderName = folderName.substring(0, maxStringLength - 3).concat("...");
+            }
 
 
             opt = window.document.createElement('option');
@@ -140,7 +146,7 @@ function wrapper(plugin_info) {
         latlng = ll.lat + ',' + ll.lng;
         label = p.options.data.title;
 
-        window.plugin.bookmarks.bkmrksObj['portals'][newFolder]['bkmrk'][bookmarkID] = { "guid": guid, "latlng": latlng, "label": label };
+        window.plugin.bookmarks.bkmrksObj.portals[newFolder].bkmrk[bookmarkID] = { "guid": guid, "latlng": latlng, "label": label };
 
         window.plugin.bookmarks.saveStorage();
         window.plugin.bookmarks.refreshBkmrks();
