@@ -2,7 +2,7 @@
 // @id             iitc-plugin-bookmarkextras@Perringaiden
 // @name           IITC plugin: Bookmark Extras
 // @category       Misc
-// @version        0.1.1
+// @version        0.1.2
 // @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-bookmark-extras.user.js
 // @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-bookmark-extras.user.js
 // @description    Extra tools for use with Bookmarks
@@ -37,7 +37,7 @@ function wrapper(plugin_info) {
     };
 
     window.plugin.bookmarkextras.createBookmarkFolderList = function () {
-        $('#portaldetails').append('<div id="bookmarkextras_folder_div" style="text-align:center"><br>Bkmrk Fldr: <select id="bookmarkextras_folder_list" onchange="window.plugin.bookmarkextras.moveSelectedPortal()"></select><br></div>');
+        $('#portaldetails').append('<div id="bookmarkextras_folder_div" style="text-align:center"><br>Bookmark Folder: <select id="bookmarkextras_folder_list" onchange="window.plugin.bookmarkextras.moveSelectedPortal()"></select><br></div>');
 
         var listElement = window.document.getElementById("bookmarkextras_folder_list");
         var portalFolder = 0;
