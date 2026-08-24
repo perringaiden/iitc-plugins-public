@@ -2,7 +2,7 @@
 // @id             iitc-plugin-recharge-high@Perringaiden
 // @name           IITC plugin: High Level Portals needing recharge.
 // @category       Misc
-// @version        0.0.3
+// @version        0.0.4
 // @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-recharge-high.user.js
 // @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-recharge-high.user.js
 // @description    Filters for identifying high level portals that are below a specific level of charge.
@@ -32,15 +32,17 @@ function wrapper(plugin_info) {
         {
             version: '0.0.3',
             changes: ['Updated highlighting logic']
+        },
+        {
+            version: '0.0.4',
+            changes: ['Added the display of the list of high level low charge portals to the dialog box.']
         }
     ];
 
-    window.plugin.wolfRecharge.highlighterHighLevelLowCharge = function (data) {
+    self.highlighterHighLevelLowCharge = function (data) {
         var portalData = data.portal.options.data;
         var health = portalData.health;
-        var playerTeam = window.teamStringToId(window.PLAYER.team);
-        var portalTeam = data.portal.options.team;
-        var portalLevel = data.portal.options.data.level;
+        var portalLevel = portalData.level;
         var scale = window.portalMarkerScale();
 
         var style = {};
@@ -48,7 +50,7 @@ function wrapper(plugin_info) {
         style.opacity = 1.0;
         style.fillOpacity = 1.0;
 
-        if ((health !== undefined) && (portalTeam == playerTeam) && (health < 70) && (portalLevel > 6)) {
+        if (self.shouldHighlightHighLevelLowCharge(data.portal)) {
             // Set the High Level Portal colour.
             if (portalLevel == 8) {
                 style.fillColor = 'magenta';
@@ -75,8 +77,68 @@ function wrapper(plugin_info) {
 
     };
 
+    self.shouldHighlightHighLevelLowCharge = function (portal) {
+        var portalData = portal.options.data;
+        var health = portalData.health;
+        var playerTeam = window.teamStringToId(window.PLAYER.team);
+        var portalTeam = portal.options.team;
+        var portalLevel = portalData.level;
+
+        if ((health !== undefined) && (portalTeam == playerTeam) && (health < 70) && (portalLevel > 6)) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    self.showHighLevelLowCharge = function () {
+        var displayDialog = '';
+        var portalList;
+        var title;
+
+
+        title = "High Level Portals Needing Recharge";
+
+        portalList = self.getHighLevelLowChargePortals();
+
+        displayDialog += '<div>';
+        displayDialog += '<textarea onClick="this.select();" style="width:96%; height:250px; resize:vertical;" name="RechargePortalList" readonly>';
+        displayDialog += portalList;
+        displayDialog += '</textarea>';
+        displayDialog += '';
+        displayDialog += '</div>';
+
+        if (displayDialog !== null) {
+            dialog({
+                html: displayDialog,
+                width: 700,
+                title: title
+            });
+        }
+    };
+
+    self.getHighLevelLowChargePortals = function () {
+        var rc = "";
+
+        $.each(window.portals, function (i, portal) {
+            if (self.shouldHighlightHighLevelLowCharge(portal)) {
+                var portalData = portal.options.data;
+
+                if (portalData.health <= 40) {
+                    rc += ":rotating_light: ";
+                }
+
+                rc += portalData.title + " (P" + portalData.level + ", " + portalData.health + "%) : "
+                rc += '<https://www.ingress.com/intel?z=17&ll=' + portalData.latE6 / 1E6 + ',' + portalData.lngE6 / 1E6 + '&pl=' + portalData.latE6 / 1E6 + ',' + portalData.lngE6 / 1E6 + '>\n';
+            }
+        });
+
+        return rc;
+    };
+
     var setup = function () {
-        window.addPortalHighlighter('High Level Low Charge', window.plugin.wolfRecharge.highlighterHighLevelLowCharge);
+        window.addPortalHighlighter('High Level Low Charge', self.highlighterHighLevelLowCharge);
+        $('#toolbox').append(' <a onclick="window.plugin.wolfRecharge.showHighLevelLowCharge()" title="Show Low Charge Portals">Show Low Charge Portals</a>');
     };
 
     setup.info = plugin_info; //add the script info data to the function as a property
