@@ -2,7 +2,7 @@
 // @id             iitc-plugin-recharge-high@Perringaiden
 // @name           IITC plugin: High Level Portals needing recharge.
 // @category       Misc
-// @version        0.0.2
+// @version        0.0.3
 // @updateURL      https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-recharge-high.user.js
 // @downloadURL    https://github.com/perringaiden/iitc-plugins-public/raw/refs/heads/main/iitc-plugin-recharge-high.user.js
 // @description    Filters for identifying high level portals that are below a specific level of charge.
@@ -27,8 +27,12 @@ function wrapper(plugin_info) {
     var changelog = [
         {
             version: '0.0.1',
-            changes: ['Initial Version'],
+            changes: ['Initial Version']
         },
+        {
+            version: '0.0.3',
+            changes: ['Updated highlighting logic']
+        }
     ];
 
     window.plugin.wolfRecharge.highlighterHighLevelLowCharge = function (data) {
@@ -37,7 +41,7 @@ function wrapper(plugin_info) {
         var playerTeam = window.teamStringToId(window.PLAYER.team);
         var portalTeam = data.portal.options.team;
         var portalLevel = data.portal.options.data.level;
-        var scale = window.portalMarkerScale;
+        var scale = window.portalMarkerScale();
 
         var style = {};
 
@@ -53,12 +57,13 @@ function wrapper(plugin_info) {
             }
             // Set the size to emphasize lower portals.
             if (health > 40) {
-                style.radius = scale * 0.5;
+                style.radius = scale * L.PortalMarker.LEVEL_TO_RADIUS[portalLevel] * 0.75;
+
             } else if (health > 20) {
-                style.radius = scale * L.PortalMarker.LEVEL_TO_RADIUS[portalLevel] * 1;
+                style.radius = scale * L.PortalMarker.LEVEL_TO_RADIUS[portalLevel] * 1.25;
 
             } else {
-                style.radius = scale * L.PortalMarker.LEVEL_TO_RADIUS[portalLevel] * 1.5;
+                style.radius = scale * L.PortalMarker.LEVEL_TO_RADIUS[portalLevel] * 2;
             }
 
         } else {
